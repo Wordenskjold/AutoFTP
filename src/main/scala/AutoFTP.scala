@@ -7,6 +7,10 @@
 	the monitored folder or sub-folders, will upload the structure and content to the server.
 	
 	The server connection is checked on startup, but the program does not maintain the connection by default.
+	
+	If the program is started by autoftp [server] [username] [password], the local folder will be the current working directory.
+	If the user does not include any startup parameters (like if the program is started through sbt with sbt run), 
+	the wizard will be started, and the user will have to enter the lcoal folder to monitor.
 */
 
 import java.io.File
@@ -21,17 +25,29 @@ import scala.collection.mutable.ArrayBuffer
 object AutoFTP{
 	
 	def main(args : Array[String]){ 
-		val usage = "Usage: autoftp [server] [username] [password]"
-		if(args.size != 3) println(usage)
-		else AutoFTP.start( args(0), args(1), args(2) )
+		val usage = "Usage: autoftp [server] [username] [password]\n or just autoftp to start wizard"
+		args.length match {
+			case 0 => startWizard
+			case 3 => AutoFTP.start( args(0), args(1), args(2) )
+			case _ => println(usage)
+		}
+	}
+	
+	def startWizard = {
+		val options = Array("local directory: ","server: ", "usr: ", "pwd: ")
+		val input = new Array[String](4)
+		for(i <- 0 to options.length-1){
+			print(options(i))
+			input(i) = Console.readLine
+		}
+		AutoFTP.rootDir = new File(input(0))
+		AutoFTP.start( input(1), input(2), input(3) )
 	}
 	
 	// The root directory to watch
-	val rootDir = new File(System getProperty "user.dir")
+	var rootDir = new File(System getProperty "user.dir")
 	
 	def root = { rootDir.getAbsolutePath }
-	
-	println(root)
 	
 	// Monitor object
 	val monitor = new FolderMonitor(rootDir)
