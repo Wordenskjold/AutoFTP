@@ -1,3 +1,17 @@
+Terminal program that monitors the current directory and automatically uploads changed or new files to an ftp-server specified. 
+	
+	Hidden files are ignored, and the folder is not synchronized with the server on startup.
+	New directory structures are created as needed, so pasting a folder containing files to 
+	the monitored folder or sub-folders, will upload the structure and content to the server.
+	
+	The server connection is checked on startup, but the program does not maintain the connection by default.
+	
+	If the program is started by autoftp [server] [username] [password], the local folder will be the current working directory.
+	If the user does not include any startup parameters (like if the program is started through sbt with sbt run), 
+	the wizard will be started, and the user will have to enter the lcoal folder to monitor.
+
 open terminal -> cd to this directory -> sbt run
 
 This will download dependencies, compile the source and run the project
+
+Creates by Frederik Wordenskjold
