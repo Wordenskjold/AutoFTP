@@ -1,3 +1,6 @@
+TODO: 
+       make it possible to set the remote path, so a file can be uploaded anywhere on the remote file tree
+
 Terminal program that monitors the current directory and automatically uploads changed or new files to an ftp-server specified. 
 	
 	Hidden files are ignored, and the folder is not synchronized with the server on startup.
